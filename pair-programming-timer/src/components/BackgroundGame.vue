@@ -6,7 +6,7 @@
       <button @click="runAutoplay">{{ autoPlayEnabled ? "⏸️" : "▶️" }}</button>
       <button @click="evaluateNextGeneration">⏭️</button>
       <button @click="randomizeBoard">🔄️</button>
-      <button @click="initializeGliders">✈️</button>
+      <button @click="initializeGlider">✈️</button>
       <button @click="initializeGliderGun">✈️🔫</button>
       <button @click="initializeClearBoardSequence">🧼</button>
     </div>
@@ -124,25 +124,13 @@ export default {
         }
       });
     },
-    initializeGliders() {
+    initializeGlider() {
       this.setAndDrawGrid(() => {
-        this.grid[10][11] = 1;
-        this.grid[11][12] = 1;
-        this.grid[12][10] = 1;
-        this.grid[12][11] = 1;
-        this.grid[12][12] = 1;
-
-        this.grid[10][1] = 1;
-        this.grid[11][2] = 1;
-        this.grid[12][0] = 1;
-        this.grid[12][1] = 1;
-        this.grid[12][2] = 1;
-
-        this.grid[0][10] = 1;
-        this.grid[1][12] = 1;
-        this.grid[2][10] = 1;
-        this.grid[2][11] = 1;
-        this.grid[2][12] = 1;
+        this.grid[0][0] = 1;
+        this.grid[1][2] = 1;
+        this.grid[2][0] = 1;
+        this.grid[2][1] = 1;
+        this.grid[2][2] = 1;
       });
     },
     initializeClearBoardSequence() {
@@ -218,7 +206,9 @@ export default {
     },
     setEmptyGrid() {
       this.iterations = 0;
-      this.grid = Array.from({ length: this.boardSize }, () => Array(this.boardSize).fill(0));
+      this.grid = Array.from({ length: this.boardSize }, () =>
+        Array(this.boardSize).fill(0)
+      );
     },
   },
   data() {
