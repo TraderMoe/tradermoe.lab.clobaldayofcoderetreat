@@ -124,7 +124,6 @@ export default {
 
 <style>
 .timer {
-  padding-top: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

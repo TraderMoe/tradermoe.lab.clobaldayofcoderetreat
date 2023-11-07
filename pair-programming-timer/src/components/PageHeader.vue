@@ -15,17 +15,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-header {
-  padding: 1rem;
-  text-align: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>
