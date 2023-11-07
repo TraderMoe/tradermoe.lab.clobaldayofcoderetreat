@@ -6,6 +6,14 @@
     <div>
       <button @click="startTimer" :disabled="timer">Start</button>
       <button @click="stopTimer" :disabled="!timer">Stop</button>
+      <audio id="swap-sound" ref="swap-sound">
+        <source id="swap-sound" src="/swap.mp3" type="audio/mp3" />
+      </audio>
+      <audio id="end-sound" ref="end-sound">
+        <source id="end-sound" src="/end.mp3" type="audio/mp3" />
+      </audio>
+      <button @click="playSwapSound" class="play-button">↔️</button>
+      <button @click="playEndSound" class="play-button">🏁</button>
       <div class="message">{{ message }}</div>
     </div>
   </div>
@@ -150,7 +158,7 @@ button {
 
 .progress {
   height: 100%;
-  background-color: #1E5031;
+  background-color: #1e5031;
   transition: width 1s linear;
 }
 </style>

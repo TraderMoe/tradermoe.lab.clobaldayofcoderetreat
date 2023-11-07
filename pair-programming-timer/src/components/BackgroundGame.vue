@@ -12,7 +12,7 @@
 <script>
 export default {
   props: {
-    height: {
+    boardSize: {
       type: Number,
       required: true,
     },
@@ -22,8 +22,8 @@ export default {
       let sum = 0;
       for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
-          let row = (x + i + this.height) % this.height;
-          let col = (y + j + this.height) % this.height;
+          let row = (x + i + this.boardSize) % this.boardSize;
+          let col = (y + j + this.boardSize) % this.boardSize;
           sum += grid[row][col];
         }
       }
@@ -31,14 +31,14 @@ export default {
       return sum;
     },
     nextGeneration(grid) {
-      let newGrid = new Array(this.height);
-      for (let i = 0; i < this.height; i++) {
-        newGrid[i] = new Array(this.height);
+      let newGrid = new Array(this.boardSize);
+      for (let i = 0; i < this.boardSize; i++) {
+        newGrid[i] = new Array(this.boardSize);
       }
 
       // Loop through every cell in the grid
-      for (let i = 0; i < this.height; i++) {
-        for (let j = 0; j < this.height; j++) {
+      for (let i = 0; i < this.boardSize; i++) {
+        for (let j = 0; j < this.boardSize; j++) {
           // Count the number of live neighbors for this cell
           let neighbors = this.countNeighbors(grid, i, j);
 
@@ -61,12 +61,12 @@ export default {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Set the size of each cell
-      let cellWidth = canvas.width / this.height;
-      let cellHeight = canvas.height / this.height;
+      let cellWidth = canvas.width / this.boardSize;
+      let cellHeight = canvas.height / this.boardSize;
 
       // Loop through every cell in the grid
-      for (let i = 0; i < this.height; i++) {
-        for (let j = 0; j < this.height; j++) {
+      for (let i = 0; i < this.boardSize; i++) {
+        for (let j = 0; j < this.boardSize; j++) {
           // Set the color of the cell based on its value
           if (grid[i][j] == 1) {
             ctx.fillStyle = "#1E5031";
@@ -100,8 +100,8 @@ export default {
       }
     },
     randomizeBoard() {
-      for (let i = 0; i < this.height; i++) {
-        for (let j = 0; j < this.height; j++) {
+      for (let i = 0; i < this.boardSize; i++) {
+        for (let j = 0; j < this.boardSize; j++) {
           this.grid[i][j] = Math.floor(Math.random() * 2);
         }
       }
@@ -120,9 +120,9 @@ export default {
   },
   mounted() {
     // Create the initial grid
-    this.grid = new Array(this.height);
-    for (let i = 0; i < this.height; i++) {
-      this.grid[i] = new Array(this.height);
+    this.grid = new Array(this.boardSize);
+    for (let i = 0; i < this.boardSize; i++) {
+      this.grid[i] = new Array(this.boardSize);
     }
 
     this.canvas = document.getElementById("canvas");
