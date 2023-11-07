@@ -95,8 +95,8 @@ export default {
           ctx.fillRect(
             j * cellWidth,
             i * cellHeight,
-            cellWidth * 0.95,
-            cellHeight * 0.95
+            cellWidth * 0.85,
+            cellHeight * 0.85
           );
         }
       }
@@ -218,16 +218,7 @@ export default {
     },
     setEmptyGrid() {
       this.iterations = 0;
-      this.grid = new Array(this.boardSize);
-      for (let i = 0; i < this.boardSize; i++) {
-        this.grid[i] = new Array(this.boardSize);
-      }
-
-      for (let i = 0; i < this.boardSize; i++) {
-        for (let j = 0; j < this.boardSize; j++) {
-          this.grid[i][j] = 0;
-        }
-      }
+      this.grid = Array.from({ length: this.boardSize }, () => Array(this.boardSize).fill(0));
     },
   },
   data() {
