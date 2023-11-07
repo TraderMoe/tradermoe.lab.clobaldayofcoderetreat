@@ -116,12 +116,13 @@ export default {
 
 <style>
 .timer {
+  padding-top: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 500px;
+  min-width: 500px;
 }
 
 .time {
@@ -149,7 +150,7 @@ button {
 
 .progress {
   height: 100%;
-  background-color: #4caf50;
+  background-color: #1E5031;
   transition: width 1s linear;
 }
 </style>

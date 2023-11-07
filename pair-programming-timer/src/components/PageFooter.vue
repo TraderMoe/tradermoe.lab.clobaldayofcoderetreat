@@ -7,7 +7,7 @@
             <audio id="end-sound" ref="end-sound">
                 <source id="end-sound" src="/end.mp3" type="audio/mp3" />
             </audio>
-            <button @click="playSwapSound" class="play-button">🔄️</button>
+            <button @click="playSwapSound" class="play-button">↔️</button>
             <button @click="playEndSound" class="play-button">🏁</button>
         </div>
     </footer>
