@@ -1,8 +1,9 @@
 <template>
   <div class="game-of-life">
+    <h2>Iterations: {{ iterations }}</h2>
     <canvas id="canvas"></canvas>
     <div class="controls">
-      <button @click="runAutoplay">⏯️</button>
+      <button @click="runAutoplay">{{ autoPlayEnabled ? "⏸️" : "▶️" }}</button>
       <button @click="evaluateNextGeneration">⏭️</button>
       <button @click="randomizeBoard">🔄️</button>
       <button @click="initializeGliders">✈️</button>
@@ -17,7 +18,8 @@ export default {
   props: {
     boardSize: {
       type: Number,
-      required: true,
+      default: 50,
+      required: false,
     },
   },
   methods: {
@@ -64,6 +66,7 @@ export default {
       }
 
       // Return the new grid
+      this.iterations++;
       return newGrid;
     },
     drawGrid() {
@@ -106,116 +109,115 @@ export default {
       this.autoPlayEnabled = !this.autoPlayEnabled;
       if (this.autoPlayEnabled) {
         this.autoPlayInterval = setInterval(() => {
-          this.grid = this.nextGeneration(this.grid);
-          this.drawGrid();
+          this.evaluateNextGeneration();
         }, 100);
       } else {
         clearInterval(this.autoPlayInterval);
       }
     },
     randomizeBoard() {
-      for (let i = 0; i < this.boardSize; i++) {
-        for (let j = 0; j < this.boardSize; j++) {
-          this.grid[i][j] = Math.floor(Math.random() * 2);
+      this.setAndDrawGrid(() => {
+        for (let i = 0; i < this.boardSize; i++) {
+          for (let j = 0; j < this.boardSize; j++) {
+            this.grid[i][j] = Math.floor(Math.random() * 2);
+          }
         }
-      }
-
-      this.drawGrid();
+      });
     },
     initializeGliders() {
-      this.setEmptyGrid();
+      this.setAndDrawGrid(() => {
+        this.grid[10][11] = 1;
+        this.grid[11][12] = 1;
+        this.grid[12][10] = 1;
+        this.grid[12][11] = 1;
+        this.grid[12][12] = 1;
 
-      this.grid[10][11] = 1;
-      this.grid[11][12] = 1;
-      this.grid[12][10] = 1;
-      this.grid[12][11] = 1;
-      this.grid[12][12] = 1;
+        this.grid[10][1] = 1;
+        this.grid[11][2] = 1;
+        this.grid[12][0] = 1;
+        this.grid[12][1] = 1;
+        this.grid[12][2] = 1;
 
-      this.grid[10][1] = 1;
-      this.grid[11][2] = 1;
-      this.grid[12][0] = 1;
-      this.grid[12][1] = 1;
-      this.grid[12][2] = 1;
-
-      this.grid[0][10] = 1;
-      this.grid[1][12] = 1;
-      this.grid[2][10] = 1;
-      this.grid[2][11] = 1;
-      this.grid[2][12] = 1;
-
-      this.drawGrid();
+        this.grid[0][10] = 1;
+        this.grid[1][12] = 1;
+        this.grid[2][10] = 1;
+        this.grid[2][11] = 1;
+        this.grid[2][12] = 1;
+      });
     },
     initializeClearBoardSequence() {
-      this.setEmptyGrid();
+      this.setAndDrawGrid(() => {
+        this.grid[21][23] = 1;
+        this.grid[21][24] = 1;
+        this.grid[21][25] = 1;
+        this.grid[22][23] = 1;
+        this.grid[23][23] = 1;
+        this.grid[22][25] = 1;
+        this.grid[23][25] = 1;
 
-      this.grid[21][23] = 1;
-      this.grid[21][24] = 1;
-      this.grid[21][25] = 1;
-      this.grid[22][23] = 1;
-      this.grid[23][23] = 1;
-      this.grid[22][25] = 1;
-      this.grid[23][25] = 1;
-
-      this.grid[25][23] = 1;
-      this.grid[26][23] = 1;
-      this.grid[27][23] = 1;
-      this.grid[27][24] = 1;
-      this.grid[27][25] = 1;
-      this.grid[26][25] = 1;
-      this.grid[25][25] = 1;
-
-      this.drawGrid();
+        this.grid[25][23] = 1;
+        this.grid[26][23] = 1;
+        this.grid[27][23] = 1;
+        this.grid[27][24] = 1;
+        this.grid[27][25] = 1;
+        this.grid[26][25] = 1;
+        this.grid[25][25] = 1;
+      });
     },
     initializeGliderGun() {
+      this.setAndDrawGrid(() => {
+        //left square
+        this.grid[5][1] = 1;
+        this.grid[5][2] = 1;
+        this.grid[6][1] = 1;
+        this.grid[6][2] = 1;
+
+        //left side
+        this.grid[3][13] = 1;
+        this.grid[3][14] = 1;
+        this.grid[4][12] = 1;
+        this.grid[4][16] = 1;
+        this.grid[5][11] = 1;
+        this.grid[5][17] = 1;
+        this.grid[6][11] = 1;
+        this.grid[6][15] = 1;
+        this.grid[6][17] = 1;
+        this.grid[6][18] = 1;
+        this.grid[7][11] = 1;
+        this.grid[7][17] = 1;
+        this.grid[8][12] = 1;
+        this.grid[8][16] = 1;
+        this.grid[9][13] = 1;
+        this.grid[9][14] = 1;
+
+        //right side
+        this.grid[1][25] = 1;
+        this.grid[2][23] = 1;
+        this.grid[2][25] = 1;
+        this.grid[3][21] = 1;
+        this.grid[3][22] = 1;
+        this.grid[4][21] = 1;
+        this.grid[4][22] = 1;
+        this.grid[5][21] = 1;
+        this.grid[5][22] = 1;
+        this.grid[6][23] = 1;
+        this.grid[6][25] = 1;
+        this.grid[7][25] = 1;
+
+        //right square
+        this.grid[3][35] = 1;
+        this.grid[3][36] = 1;
+        this.grid[4][35] = 1;
+        this.grid[4][36] = 1;
+      });
+    },
+    setAndDrawGrid(setData) {
       this.setEmptyGrid();
-
-      //left square
-      this.grid[5][1] = 1;
-      this.grid[5][2] = 1;
-      this.grid[6][1] = 1;
-      this.grid[6][2] = 1;
-
-      //left side
-      this.grid[3][13] = 1;
-      this.grid[3][14] = 1;
-      this.grid[4][12] = 1;
-      this.grid[4][16] = 1;
-      this.grid[5][11] = 1;
-      this.grid[5][17] = 1;
-      this.grid[6][11] = 1;
-      this.grid[6][15] = 1;
-      this.grid[6][17] = 1;
-      this.grid[6][18] = 1;
-      this.grid[7][11] = 1;
-      this.grid[7][17] = 1;
-      this.grid[8][12] = 1;
-      this.grid[8][16] = 1;
-      this.grid[9][13] = 1;
-      this.grid[9][14] = 1;
-
-      //right side
-      this.grid[1][25] = 1;
-      this.grid[2][23] = 1;
-      this.grid[2][25] = 1;
-      this.grid[3][21] = 1;
-      this.grid[3][22] = 1;
-      this.grid[4][21] = 1;
-      this.grid[4][22] = 1;
-      this.grid[5][21] = 1;
-      this.grid[5][22] = 1;
-      this.grid[6][23] = 1;
-      this.grid[6][25] = 1;
-      this.grid[7][25] = 1;
-
-      //right square
-      this.grid[3][35] = 1;
-      this.grid[3][36] = 1;
-      this.grid[4][35] = 1;
-      this.grid[4][36] = 1;
-
+      setData();
       this.drawGrid();
     },
     setEmptyGrid() {
+      this.iterations = 0;
       this.grid = new Array(this.boardSize);
       for (let i = 0; i < this.boardSize; i++) {
         this.grid[i] = new Array(this.boardSize);
@@ -235,6 +237,7 @@ export default {
       grid: null,
       autoPlayEnabled: false,
       autoPlayInterval: null,
+      iterations: 0,
     };
   },
   mounted() {
