@@ -1,10 +1,6 @@
 # Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
 
-defaults:
-  run:
-    working-directory: ./pair-programming-timer
-
 on:
   # Runs on pushes targeting the default branch
   push:
@@ -34,6 +30,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          path: pair-programming-timer
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -41,15 +39,17 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+        working-directory: pair-programming-timer
       - name: Build
         run: npm run build
+        working-directory: pair-programming-timer
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload dist folder
-          path: './dist'
+          path: './pair-programming-timer/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
